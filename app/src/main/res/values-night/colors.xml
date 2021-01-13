@@ -16,5 +16,8 @@
     <color name="yellow">#FFC114</color>
     <color name="green">#00C980</color>
 
+    // card style
     <color name="backgroundColor">@color/darkGray</color>
+    <color name="titleColor">@color/mediumGray</color>
+    <color name="summaryColor">@color/mediumGray</color>
 </resources>
