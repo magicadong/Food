@@ -1,130 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardView"
+    <data>
+        <variable
+            name="result"
+            type="com.example.food.data.model.Result" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingTop="8dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/foodPicImageView"
-                android:layout_width="200dp"
-                android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/titleTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="12dp"
-                android:fontFamily="@font/courgette"
-                android:text="TextView"
-                android:maxLines="2"
-                android:textColor="@color/titleColor"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/foodPicImageView"
-                app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/foodPicImageView"
+                    android:layout_width="200dp"
+                    android:layout_height="0dp"
+                    loadImageUrl="@{result.image}"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@tools:sample/avatars" />
 
-            <TextView
-                android:id="@+id/summeryTextView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="A user interface element that displays text to the user. To provide user-editable text"
-                android:textSize="16sp"
-                android:maxLines="3"
-                android:ellipsize="end"
-                android:textColor="@color/summaryColor"
-                app:layout_constraintEnd_toEndOf="@+id/titleTextView"
-                app:layout_constraintStart_toStartOf="@+id/titleTextView"
-                app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+                <TextView
+                    android:id="@+id/titleTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:fontFamily="@font/courgette"
+                    android:text="@{result.title}"
+                    android:maxLines="2"
+                    tools:text="text view"
+                    android:textColor="@color/titleColor"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/foodPicImageView"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/likeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="100"
-                android:textColor="@color/red"
-                app:layout_constraintStart_toStartOf="@+id/summeryTextView"
-                app:layout_constraintTop_toBottomOf="@+id/likeImageView" />
+                <TextView
+                    android:id="@+id/summeryTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    parseHtml="@{result.summary}"
+                    android:textSize="16sp"
+                    android:maxLines="3"
+                    tools:text="Summary"
+                    android:ellipsize="end"
+                    android:textColor="@color/summaryColor"
+                    app:layout_constraintEnd_toEndOf="@+id/titleTextView"
+                    app:layout_constraintStart_toStartOf="@+id/titleTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
 
-            <ImageView
-                android:id="@+id/likeImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="36dp"
-                app:tint="@color/red"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/likeTextView"
-                app:layout_constraintStart_toStartOf="@+id/likeTextView"
-                app:layout_constraintTop_toBottomOf="@+id/summeryTextView"
-                app:srcCompat="@drawable/ic_like" />
+                <TextView
+                    android:id="@+id/likeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{String.valueOf(result.aggregateLikes)}"
+                    android:textColor="@color/red"
+                    app:layout_constraintEnd_toEndOf="@+id/likeImageView"
+                    app:layout_constraintStart_toStartOf="@+id/likeImageView"
+                    app:layout_constraintTop_toBottomOf="@+id/likeImageView"
+                    tools:text="100" />
 
-            <ImageView
-                android:id="@+id/timeImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:tint="@color/yellow"
-                app:layout_constraintEnd_toEndOf="@+id/timeTextView"
-                app:layout_constraintStart_toStartOf="@+id/timeTextView"
-                app:layout_constraintTop_toTopOf="@+id/likeImageView"
-                app:srcCompat="@drawable/ic_time" />
+                <ImageView
+                    android:id="@+id/likeImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="36dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/summeryTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/summeryTextView"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:srcCompat="@drawable/ic_like"
+                    app:tint="@color/red" />
 
-            <TextView
-                android:id="@+id/timeTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:text="100"
-                android:textColor="@color/yellow"
-                app:layout_constraintStart_toEndOf="@+id/likeTextView"
-                app:layout_constraintTop_toBottomOf="@+id/timeImageView" />
+                <ImageView
+                    android:id="@+id/timeImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:tint="@color/yellow"
+                    app:layout_constraintEnd_toEndOf="@+id/timeTextView"
+                    app:layout_constraintStart_toStartOf="@+id/timeTextView"
+                    app:layout_constraintTop_toTopOf="@+id/likeImageView"
+                    app:srcCompat="@drawable/ic_time" />
 
-            <ImageView
-                android:id="@+id/veganImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="@+id/veganTextView"
-                app:layout_constraintStart_toStartOf="@+id/veganTextView"
-                app:layout_constraintTop_toTopOf="@+id/timeImageView"
-                app:srcCompat="@drawable/ic_vegan" />
+                <TextView
+                    android:id="@+id/timeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:text="@{String.valueOf(result.readyInMinutes)}"
+                    android:textColor="@color/yellow"
+                    tools:text="100"
+                    app:layout_constraintStart_toEndOf="@+id/likeTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/timeImageView" />
 
-            <TextView
-                android:id="@+id/veganTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="2dp"
-                android:text="vegan"
-                app:layout_constraintStart_toEndOf="@+id/timeTextView"
-                app:layout_constraintTop_toBottomOf="@+id/veganImageView" />
+                <ImageView
+                    android:id="@+id/veganImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    applyVeganColor="@{result.vegan}"
+                    app:layout_constraintEnd_toEndOf="@+id/veganTextView"
+                    app:layout_constraintStart_toStartOf="@+id/veganTextView"
+                    app:layout_constraintTop_toTopOf="@+id/timeImageView"
+                    app:srcCompat="@drawable/ic_vegan" />
+
+                <TextView
+                    android:id="@+id/veganTextView"
+                    applyVeganColor="@{result.vegan}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="24dp"
+                    android:text="Vegan"
+                    app:layout_constraintStart_toEndOf="@+id/timeTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/timeImageView" />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+        </com.google.android.material.card.MaterialCardView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

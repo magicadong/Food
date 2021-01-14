@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.core.content.getSystemService
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
@@ -20,6 +21,7 @@ import com.example.food.util.Constants.Companion.QUERY_FILL_INGREDIENTS
 import com.example.food.util.Constants.Companion.QUERY_NUMBER
 import com.example.food.util.Constants.Companion.QUERY_TYPE
 import com.example.food.util.NetworkResult
+import com.example.food.util.log
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -41,7 +43,9 @@ class MainViewModel @ViewModelInject constructor(
         recipesResponse.value = NetworkResult.Loading()
         if (hasInternetConnection()){
             try {
+                log("MainViewModel start")
                 val response = repository.remoteDataSource.getRecipes(queries)
+                log("MainViewModel end: ${response.body()}")
                 recipesResponse.value = handleFoodRecipesResponse(response)
             }catch (e: Exception){
                 recipesResponse.value = NetworkResult.Error("exception:Recipies not found")
@@ -95,7 +99,7 @@ class MainViewModel @ViewModelInject constructor(
         val queries:HashMap<String,String> = HashMap()
         queries[QUERY_NUMBER] = "50"
         queries[QUERY_API_KEY] = API_KEY
-        queries[QUERY_TYPE] = "snack"
+        queries[QUERY_TYPE] = "dessert"
         queries[QUERY_DIET] = "vegan"
         queries[QUERY_ADD_RECIPE_INFORMATION] = "true"
         queries[QUERY_FILL_INGREDIENTS] = "true"
