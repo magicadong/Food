@@ -13,6 +13,7 @@ import com.example.food.adapter.RecipesRowAdapter
 import com.example.food.databinding.FragmentRecipesBinding
 import com.example.food.ui.viewmodel.MainViewModel
 import com.example.food.util.NetworkResult
+import com.example.food.util.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,28 +29,42 @@ class RecipesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRecipesBinding.inflate(inflater,container,false)
+        binding.lifecycleOwner = this
+        binding.mainViewModel = mainViewModel
 
         initRecyclerView()
+        readDatabase()
 
+        return binding.root
+    }
+
+    private fun requestApiData() {
         mainViewModel.getRecipies(mainViewModel.applyQueries())
         mainViewModel.recipesResponse.observe(viewLifecycleOwner){networkResult ->
             when(networkResult){
-                is NetworkResult.Loading -> binding.recyclerView.showShimmer()
+                is NetworkResult.Loading -> {
+                    binding.recyclerView.showShimmer()
+                }
                 is NetworkResult.Success -> {
                     mAdapter.setData(networkResult.data!!)
                     binding.recyclerView.hideShimmer()
                 }
                 is NetworkResult.Error -> {
-                    Toast.makeText(
-                            requireContext(),
-                            "get data failed：${networkResult.message}",
-                            Toast.LENGTH_SHORT
-                    ).show()
                     binding.recyclerView.hideShimmer()
                 }
             }
         }
-        return binding.root
+    }
+
+    private fun readDatabase(){
+        mainViewModel.readRecipes.observeOnce(viewLifecycleOwner){
+            if (it.isNotEmpty()){
+                mAdapter.setData(it[0].foodRecipes)
+                binding.recyclerView.hideShimmer()
+            }else{
+                requestApiData()
+            }
+        }
     }
 
     private fun initRecyclerView(){

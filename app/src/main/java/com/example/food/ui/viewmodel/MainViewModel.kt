@@ -4,15 +4,11 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.util.Log
-import androidx.core.content.getSystemService
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.food.data.Repository
+import com.example.food.data.local.RecipesEntity
 import com.example.food.data.model.FoodRecipes
-import com.example.food.util.Constants
 import com.example.food.util.Constants.Companion.API_KEY
 import com.example.food.util.Constants.Companion.QUERY_ADD_RECIPE_INFORMATION
 import com.example.food.util.Constants.Companion.QUERY_API_KEY
@@ -21,8 +17,7 @@ import com.example.food.util.Constants.Companion.QUERY_FILL_INGREDIENTS
 import com.example.food.util.Constants.Companion.QUERY_NUMBER
 import com.example.food.util.Constants.Companion.QUERY_TYPE
 import com.example.food.util.NetworkResult
-import com.example.food.util.log
-import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
@@ -30,6 +25,18 @@ class MainViewModel @ViewModelInject constructor(
         private val repository: Repository,
         application: Application
 ) : AndroidViewModel(application) {
+    /** database */
+    // 读取数据库
+    var readRecipes:LiveData<List<RecipesEntity>> = repository.localDataSource.readRecipes().asLiveData()
+
+    // 插入数据
+    private fun insertRecipes(recipesEntity: RecipesEntity){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.localDataSource.insertRecipe(recipesEntity)
+        }
+    }
+
+    /** retrofit */
     // 食谱数据
     var recipesResponse: MutableLiveData<NetworkResult<FoodRecipes>> = MutableLiveData()
 
@@ -43,16 +50,25 @@ class MainViewModel @ViewModelInject constructor(
         recipesResponse.value = NetworkResult.Loading()
         if (hasInternetConnection()){
             try {
-                log("MainViewModel start")
                 val response = repository.remoteDataSource.getRecipes(queries)
-                log("MainViewModel end: ${response.body()}")
                 recipesResponse.value = handleFoodRecipesResponse(response)
+
+                // 如果有数据需要缓存
+                val foodRecipe = recipesResponse.value!!.data
+                if (foodRecipe != null){
+                    offLineCacheRecipes(foodRecipe)
+                }
             }catch (e: Exception){
                 recipesResponse.value = NetworkResult.Error("exception:Recipies not found")
             }
         }else{
             recipesResponse.value = NetworkResult.Error("No Internet Connection")
         }
+    }
+
+    private fun offLineCacheRecipes(foodRecipe: FoodRecipes) {
+        val recipesEntity = RecipesEntity(foodRecipe)
+        insertRecipes(recipesEntity)
     }
 
     // 对数据进行处理
@@ -99,7 +115,7 @@ class MainViewModel @ViewModelInject constructor(
         val queries:HashMap<String,String> = HashMap()
         queries[QUERY_NUMBER] = "50"
         queries[QUERY_API_KEY] = API_KEY
-        queries[QUERY_TYPE] = "dessert"
+        queries[QUERY_TYPE] = "breakfast"
         queries[QUERY_DIET] = "vegan"
         queries[QUERY_ADD_RECIPE_INFORMATION] = "true"
         queries[QUERY_FILL_INGREDIENTS] = "true"

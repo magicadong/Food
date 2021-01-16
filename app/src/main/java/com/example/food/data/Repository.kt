@@ -1,7 +1,5 @@
 package com.example.food.data
 
-import com.example.food.data.local.LocalDataSource
-import com.example.food.data.remote.RemoteDataSource
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import javax.inject.Inject
 
