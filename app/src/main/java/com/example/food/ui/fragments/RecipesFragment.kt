@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class RecipesFragment : Fragment() {
     private var _binding: FragmentRecipesBinding? = null
-    private val binding = _binding!!
+    private val binding get() = _binding!!
 
     private val mainViewModel by viewModels<MainViewModel>()
 
