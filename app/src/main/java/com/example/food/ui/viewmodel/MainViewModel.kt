@@ -106,19 +106,4 @@ class MainViewModel @ViewModelInject constructor(
             else -> false
         }
     }
-
-    // 构造请求参数
-    //number=1&apiKey=e0401bc1cfc44b649d3e479cf73d4dca
-    // &type=breakfast&diet=vegan&addRecipeInformation=true
-    // &fillIngredients=true
-    fun applyQueries():HashMap<String,String>{
-        val queries:HashMap<String,String> = HashMap()
-        queries[QUERY_NUMBER] = "50"
-        queries[QUERY_API_KEY] = API_KEY
-        queries[QUERY_TYPE] = "breakfast"
-        queries[QUERY_DIET] = "vegan"
-        queries[QUERY_ADD_RECIPE_INFORMATION] = "true"
-        queries[QUERY_FILL_INGREDIENTS] = "true"
-        return queries
-    }
 }

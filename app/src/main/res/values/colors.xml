@@ -20,4 +20,10 @@
     <color name="backgroundColor">@color/lightGray</color>
     <color name="titleColor">@color/dark</color>
     <color name="summaryColor">@color/darkGray</color>
+
+    // chip style
+    <color name="chipBackgroundColor">@color/lightGray</color>
+    <color name="checkChipBackgroundColor">#509D46FF</color>
+    <color name="checkedTextColor">@color/colorPrimary</color>
+    <color name="chipTextColor">@color/darkGray</color>
 </resources>

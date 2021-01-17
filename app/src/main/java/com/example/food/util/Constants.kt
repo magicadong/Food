@@ -13,9 +13,17 @@ class Constants {
         const val QUERY_ADD_RECIPE_INFORMATION = "addRecipeInformation"
         const val QUERY_FILL_INGREDIENTS = "fillIngredients"
 
+        const val DEFAULT_MEAL_TYPE = "Main Course"
+        const val DEFAULT_DIET_TYPE = "Gluten Free"
         // Database
         const val RECIPES_TABLE_NAME = "recipes_table"
         const val DATABASE_NAME = "recipes_database"
 
+        // DataStore
+        const val PREFERENCES_NAME = "foodPreference"
+        const val MEAL_TYPE_KEY = "mealType"
+        const val MEAL_ID_KEY = "mealId"
+        const val DIET_TYPE_KEY = "dietType"
+        const val DIET_ID_KEY = "dietID"
     }
 }

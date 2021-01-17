@@ -5,4 +5,28 @@
     <string name="fragment_joke">Joke</string>
     <string name="no_internet_connection">No Internet Connection</string>
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mealtype">MealType</string>
+    <string name="main_course">Main Course</string>
+    <string name="side_dish">Side Dish</string>
+    <string name="dessert">Dessert</string>
+    <string name="bread">Bread</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="salad">Salad</string>
+    <string name="soup">Soup</string>
+    <string name="snak">Snak</string>
+    <string name="drink">Drink</string>
+    <string name="finger_food">Fingerfood</string>
+    <string name="diet_type">DietType</string>
+    <string name="gluten_free">Gluten Free</string>
+    <string name="ketogenic">Ketogenic</string>
+    <string name="vegetarian">Vegetarian</string>
+    <string name="vegan">Vegan</string>
+    <string name="pescetarian">Pescetarian</string>
+    <string name="paleo">Paleo</string>
+    <string name="primal">Primal</string>
+    <string name="Lacto_Vegetarian">Lacto-Vegetarian</string>
+    <string name="Apply">Apply</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
 </resources>

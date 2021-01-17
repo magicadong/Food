@@ -1,17 +1,18 @@
-package com.example.food.ui.fragments
+package com.example.food.ui.fragments.recipes
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.food.adapter.RecipesRowAdapter
 import com.example.food.databinding.FragmentRecipesBinding
 import com.example.food.ui.viewmodel.MainViewModel
+import com.example.food.ui.viewmodel.RecipesViewModel
 import com.example.food.util.NetworkResult
 import com.example.food.util.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +24,9 @@ class RecipesFragment : Fragment() {
 
     private val mAdapter = RecipesRowAdapter()
     private val mainViewModel by viewModels<MainViewModel>()
+    private val recipesViewModel by viewModels<RecipesViewModel>()
+
+    private val args by navArgs<RecipesFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,11 +39,16 @@ class RecipesFragment : Fragment() {
         initRecyclerView()
         readDatabase()
 
+        binding.floatingActionButton.setOnClickListener {
+            val action = RecipesFragmentDirections.actionRecipesFragmentToBottomSheetFragment()
+            findNavController().navigate(action)
+        }
+
         return binding.root
     }
 
     private fun requestApiData() {
-        mainViewModel.getRecipies(mainViewModel.applyQueries())
+        mainViewModel.getRecipies(recipesViewModel.applyQueries())
         mainViewModel.recipesResponse.observe(viewLifecycleOwner){networkResult ->
             when(networkResult){
                 is NetworkResult.Loading -> {
@@ -58,7 +67,7 @@ class RecipesFragment : Fragment() {
 
     private fun readDatabase(){
         mainViewModel.readRecipes.observeOnce(viewLifecycleOwner){
-            if (it.isNotEmpty()){
+            if (it.isNotEmpty() && !args.backFromBottomSheet){
                 mAdapter.setData(it[0].foodRecipes)
                 binding.recyclerView.hideShimmer()
             }else{

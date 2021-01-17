@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context=".ui.fragments.JokeFragment">
+    tools:context=".ui.fragments.joke.JokeFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
