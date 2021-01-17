@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.datastore.DataStore
 import androidx.datastore.createDataStore
 import androidx.datastore.preferences.*
+import com.example.food.util.Constants.Companion.BACK_ONLINE_KEY
 import com.example.food.util.Constants.Companion.DEFAULT_DIET_TYPE
 import com.example.food.util.Constants.Companion.DEFAULT_MEAL_TYPE
 import com.example.food.util.Constants.Companion.DIET_ID_KEY
@@ -29,10 +30,18 @@ class DataStoreRepository @Inject constructor(
         val mealIdKey = preferencesKey<Int>(MEAL_ID_KEY)
         val dietTypeKey = preferencesKey<String>(DIET_TYPE_KEY)
         val dietIdKey = preferencesKey<Int>(DIET_ID_KEY)
+        val backOnlineKey = preferencesKey<Boolean>(BACK_ONLINE_KEY)
     }
     private val dataStore: DataStore<Preferences> = context.createDataStore(
             PREFERENCES_NAME
     )
+
+    // 保存网络状态
+    suspend fun saveBackOnline(status:Boolean){
+        dataStore.edit {
+            it[backOnlineKey] = status
+        }
+    }
 
     //存储数据
     suspend fun saveMealAndDiet(
@@ -65,6 +74,20 @@ class DataStoreRepository @Inject constructor(
                         preferences[dietIdKey] ?: 0
                 )
             }
+
+    // 读取网络状态
+    val backOnline:Flow<Boolean> = dataStore.data
+        .catch { exception ->
+            if (exception is IOException){
+                emit(emptyPreferences())
+            }else{
+                throw exception
+            }
+        }
+        .map {
+            val backOnline = it[backOnlineKey] ?: false
+            backOnline
+        }
 }
 
 data class MealInfo(

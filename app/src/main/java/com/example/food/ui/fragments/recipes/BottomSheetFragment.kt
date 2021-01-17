@@ -52,10 +52,14 @@ class BottomSheetFragment : BottomSheetDialogFragment() {
         }
 
         binding.applyButton.setOnClickListener {
-            recipesViewModel.saveMealAndDiet(mealType,mealId, dietType, dietId)
-            val action = BottomSheetFragmentDirections
+            if (!recipesViewModel.networkStatus){
+                recipesViewModel.showNetworkStatus()
+            }else {
+                recipesViewModel.saveMealAndDiet(mealType, mealId, dietType, dietId)
+                val action = BottomSheetFragmentDirections
                     .actionBottomSheetFragmentToRecipesFragment(true)
-            findNavController().navigate(action)
+                findNavController().navigate(action)
+            }
         }
 
         binding.mealTypeChipGroup.setOnCheckedChangeListener { group, checkedId ->

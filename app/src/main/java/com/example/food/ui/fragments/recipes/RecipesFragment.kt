@@ -1,11 +1,13 @@
 package com.example.food.ui.fragments.recipes
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,10 +15,15 @@ import com.example.food.adapter.RecipesRowAdapter
 import com.example.food.databinding.FragmentRecipesBinding
 import com.example.food.ui.viewmodel.MainViewModel
 import com.example.food.ui.viewmodel.RecipesViewModel
+import com.example.food.util.NetworkListener
 import com.example.food.util.NetworkResult
 import com.example.food.util.observeOnce
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class RecipesFragment : Fragment() {
     private var _binding: FragmentRecipesBinding? = null
@@ -28,6 +35,8 @@ class RecipesFragment : Fragment() {
 
     private val args by navArgs<RecipesFragmentArgs>()
 
+    private lateinit var networkListener: NetworkListener
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,7 +46,20 @@ class RecipesFragment : Fragment() {
         binding.mainViewModel = mainViewModel
 
         initRecyclerView()
-        readDatabase()
+
+        recipesViewModel.readBackOnline.observe(viewLifecycleOwner){
+            recipesViewModel.backOnline = it
+        }
+
+        //实时监听网络状态
+        lifecycleScope.launch {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext())
+                .collect { status ->
+                    recipesViewModel.networkStatus = status
+                    readDatabase()
+                }
+        }
 
         binding.floatingActionButton.setOnClickListener {
             val action = RecipesFragmentDirections.actionRecipesFragmentToBottomSheetFragment()
@@ -45,6 +67,17 @@ class RecipesFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun readDatabase(){
+        mainViewModel.readRecipes.observeOnce(viewLifecycleOwner){
+            if (it.isNotEmpty() && !args.backFromBottomSheet){
+                mAdapter.setData(it[0].foodRecipes)
+                binding.recyclerView.hideShimmer()
+            }else{
+                requestApiData()
+            }
+        }
     }
 
     private fun requestApiData() {
@@ -61,17 +94,6 @@ class RecipesFragment : Fragment() {
                 is NetworkResult.Error -> {
                     binding.recyclerView.hideShimmer()
                 }
-            }
-        }
-    }
-
-    private fun readDatabase(){
-        mainViewModel.readRecipes.observeOnce(viewLifecycleOwner){
-            if (it.isNotEmpty() && !args.backFromBottomSheet){
-                mAdapter.setData(it[0].foodRecipes)
-                binding.recyclerView.hideShimmer()
-            }else{
-                requestApiData()
             }
         }
     }

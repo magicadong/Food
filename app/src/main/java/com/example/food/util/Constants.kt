@@ -25,5 +25,6 @@ class Constants {
         const val MEAL_ID_KEY = "mealId"
         const val DIET_TYPE_KEY = "dietType"
         const val DIET_ID_KEY = "dietID"
+        const val BACK_ONLINE_KEY = "backOnline"
     }
 }
