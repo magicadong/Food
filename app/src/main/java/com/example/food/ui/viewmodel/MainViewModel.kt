@@ -39,10 +39,16 @@ class MainViewModel @ViewModelInject constructor(
     /** retrofit */
     // 食谱数据
     var recipesResponse: MutableLiveData<NetworkResult<FoodRecipes>> = MutableLiveData()
+    val searchRecipesResponse: MutableLiveData<NetworkResult<FoodRecipes>> = MutableLiveData()
 
     // 提供外部访问接口
     fun getRecipies(queries: Map<String,String>) = viewModelScope.launch{
         getRecipesSafeCall(queries)
+    }
+
+    // 提供外部搜索接口
+    fun searchRecipes(searchQueries: Map<String,String>){
+        viewModelScope.launch { searchRecipesSafeCall(searchQueries) }
     }
 
     // 内部具体访问
@@ -65,6 +71,22 @@ class MainViewModel @ViewModelInject constructor(
             recipesResponse.value = NetworkResult.Error("No Internet Connection")
         }
     }
+
+    private suspend fun searchRecipesSafeCall(searchQueries: Map<String, String>) {
+        searchRecipesResponse.value = NetworkResult.Loading()
+        if (hasInternetConnection()){
+            try {
+                val response = repository.remoteDataSource.getRecipes(searchQueries)
+                searchRecipesResponse.value = handleFoodRecipesResponse(response)
+
+            }catch (e: Exception){
+                searchRecipesResponse.value = NetworkResult.Error("exception:Recipies not found")
+            }
+        }else{
+            searchRecipesResponse.value = NetworkResult.Error("No Internet Connection")
+        }
+    }
+
 
     private fun offLineCacheRecipes(foodRecipe: FoodRecipes) {
         val recipesEntity = RecipesEntity(foodRecipe)

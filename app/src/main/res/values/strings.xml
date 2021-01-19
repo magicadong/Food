@@ -27,6 +27,7 @@
     <string name="primal">Primal</string>
     <string name="Lacto_Vegetarian">Lacto-Vegetarian</string>
     <string name="Apply">Apply</string>
+    <string name="menu_search">search</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

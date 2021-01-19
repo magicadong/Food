@@ -78,4 +78,14 @@ class RecipesViewModel @ViewModelInject constructor(
         queries[Constants.QUERY_FILL_INGREDIENTS] = "true"
         return queries
     }
+
+    fun applySearchQueries(search: String):HashMap<String,String>{
+        val queries:HashMap<String,String> = HashMap()
+        queries[Constants.QUERY_NUMBER] = "50"
+        queries[Constants.QUERY_API_KEY] = Constants.API_KEY
+        queries[Constants.QUERY_QUERY] = search
+        queries[Constants.QUERY_ADD_RECIPE_INFORMATION] = "true"
+        queries[Constants.QUERY_FILL_INGREDIENTS] = "true"
+        return queries
+    }
 }
