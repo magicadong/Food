@@ -172,7 +172,7 @@
 
                 <com.google.android.material.chip.Chip
                     style="@style/CustomChipStyle"
-                    android:id="@+id/vegetarianTextView"
+                    android:id="@+id/VegetrianTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/vegetarian" />

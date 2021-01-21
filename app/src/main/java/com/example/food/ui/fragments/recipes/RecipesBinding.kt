@@ -1,7 +1,6 @@
-package com.example.food.adapter
+package com.example.food.ui.fragments.recipes
 
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter

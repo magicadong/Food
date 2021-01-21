@@ -1,9 +1,13 @@
 package com.example.food.data
 
 import android.content.Context
-import androidx.datastore.DataStore
+import androidx.datastore.core.DataStore
 import androidx.datastore.createDataStore
 import androidx.datastore.preferences.*
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.preferencesKey
 import com.example.food.util.Constants.Companion.BACK_ONLINE_KEY
 import com.example.food.util.Constants.Companion.DEFAULT_DIET_TYPE
 import com.example.food.util.Constants.Companion.DEFAULT_MEAL_TYPE

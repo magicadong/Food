@@ -26,4 +26,7 @@
     <color name="checkChipBackgroundColor">#509D46FF</color>
     <color name="checkedTextColor">@color/colorPrimary</color>
     <color name="chipTextColor">@color/darkGray</color>
+
+    // tablayout
+    <color name="tabLayoutBackgroundColor">@color/colorPrimary</color>
 </resources>

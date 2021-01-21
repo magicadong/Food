@@ -1,11 +1,17 @@
-package com.example.food.util
+package com.example.food.ui.fragments.recipes
 
+import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
+import androidx.navigation.findNavController
 import coil.load
 import com.example.food.R
+import com.example.food.data.model.Result
+import com.example.food.ui.fragments.recipes.RecipesFragmentDirections
+import com.example.food.util.Constants.Companion.IMAGE_BASE_URL
 import org.jsoup.Jsoup
 
 class RecipesRowBinding {
@@ -44,10 +50,30 @@ class RecipesRowBinding {
             }
         }
 
+        @BindingAdapter("loadIngredientImageUrl")
+        @JvmStatic
+        fun loadIngredientImageUrl(imageView: ImageView, url:String){
+            imageView.load(IMAGE_BASE_URL + url){
+                crossfade(600)
+                error(R.drawable.error_placeholder)
+                placeholder(R.drawable.error_placeholder)
+            }
+        }
+
         @BindingAdapter("parseHtml")
         @JvmStatic
         fun parseHtml(textView: TextView, text: String){
             textView.text = Jsoup.parse(text).text()
+        }
+
+        @BindingAdapter("showDetail")
+        @JvmStatic
+        fun showDetail(layout: ConstraintLayout, result: Result){
+            layout.setOnClickListener {
+                val action = RecipesFragmentDirections
+                    .actionRecipesFragmentToDetailActivity(result)
+                layout.findNavController().navigate(action)
+            }
         }
     }
 }
