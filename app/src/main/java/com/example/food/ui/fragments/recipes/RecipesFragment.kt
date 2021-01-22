@@ -103,6 +103,7 @@ class RecipesFragment : Fragment(),SearchView.OnQueryTextListener {
                     binding.recyclerView.hideShimmer()
                 }
                 is NetworkResult.Error -> {
+                    Log.v("ppp", networkResult.message!!)
                     binding.recyclerView.hideShimmer()
                 }
             }

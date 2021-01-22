@@ -2,9 +2,11 @@ package com.example.food.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.navArgs
+import com.example.food.R
 import com.example.food.adapter.DetailPageAdapter
 import com.example.food.databinding.ActivityDetailBinding
 import com.example.food.ui.fragments.detail.IngredientFragment
@@ -14,7 +16,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailActivity : AppCompatActivity() {
-    private var _binding:ActivityDetailBinding? = null
+    private var _binding: ActivityDetailBinding? = null
     private val binding get() = _binding!!
 
     private val args by navArgs<DetailActivityArgs>()
@@ -58,6 +60,11 @@ class DetailActivity : AppCompatActivity() {
         ) { tab, position ->
             tab.text = titles[position]
         }.attach()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.detail_star_menu,menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

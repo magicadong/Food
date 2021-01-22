@@ -21,5 +21,25 @@ class OverViewBinding {
                 is TextView -> view.setTextColor(color)
             }
         }
+
+        @BindingAdapter("applyConsistency")
+        @JvmStatic
+        fun applyConsistency(textView: TextView, string: String?){
+            if (string.isNullOrEmpty()){
+                textView.text = ""
+            }else{
+                textView.text = string
+            }
+        }
+
+        @BindingAdapter("applyAmount")
+        @JvmStatic
+        fun applyAmount(textView: TextView, amount: Float?){
+            if (amount == null){
+                textView.text = "0"
+            }else{
+                textView.text = "$amount"
+            }
+        }
     }
 }

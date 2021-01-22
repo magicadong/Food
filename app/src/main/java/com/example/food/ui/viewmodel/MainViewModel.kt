@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.example.food.data.Repository
@@ -65,7 +66,8 @@ class MainViewModel @ViewModelInject constructor(
                     offLineCacheRecipes(foodRecipe)
                 }
             }catch (e: Exception){
-                recipesResponse.value = NetworkResult.Error("exception:Recipies not found")
+                Log.v("ppp","error: ${e.message}")
+                recipesResponse.value = NetworkResult.Error("Food Not Found")
             }
         }else{
             recipesResponse.value = NetworkResult.Error("No Internet Connection")
@@ -97,10 +99,7 @@ class MainViewModel @ViewModelInject constructor(
     private fun handleFoodRecipesResponse(response: Response<FoodRecipes>): NetworkResult<FoodRecipes>? {
         return when{
             response.message().contains("timeout") ->{
-                NetworkResult.Error("time out")
-            }
-            response.code() == 402 ->{
-                NetworkResult.Error("appkey limitted")
+                NetworkResult.Error("time out:${response.message()}")
             }
             response.body()!!.results.isNullOrEmpty() ->{
                 NetworkResult.Error("empty: Recipes not found")
