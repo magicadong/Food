@@ -2,12 +2,13 @@ package com.example.food.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
+import com.example.food.data.local.entity.FavoritesEntity
+import com.example.food.data.local.entity.RecipesEntity
 import com.example.food.util.RecipesTypeConverter
 
 @Database(
-        entities = [RecipesEntity::class],
+        entities = [RecipesEntity::class,FavoritesEntity::class],
         version = 1,
         exportSchema = false
 )

@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
-import com.example.food.data.local.RecipesEntity
+import com.example.food.data.local.entity.RecipesEntity
 import com.example.food.data.model.FoodRecipes
 import com.example.food.util.NetworkResult
 

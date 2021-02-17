@@ -45,7 +45,6 @@ class RecipesRowBinding {
         fun loadImageUrl(imageView: ImageView, url:String){
             imageView.load(url){
                 crossfade(600)
-                error(R.drawable.error_placeholder)
                 placeholder(R.drawable.error_placeholder)
             }
         }
@@ -55,7 +54,6 @@ class RecipesRowBinding {
         fun loadIngredientImageUrl(imageView: ImageView, url:String){
             imageView.load(IMAGE_BASE_URL + url){
                 crossfade(600)
-                error(R.drawable.error_placeholder)
                 placeholder(R.drawable.error_placeholder)
             }
         }

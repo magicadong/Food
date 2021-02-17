@@ -28,6 +28,7 @@
     <string name="Lacto_Vegetarian">Lacto-Vegetarian</string>
     <string name="Apply">Apply</string>
     <string name="menu_search">search</string>
+    <string name="no_favorite_recipes">No Favorite Recipes</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

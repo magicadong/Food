@@ -27,7 +27,7 @@ class InstructionFragment : Fragment() {
 
         val result:Result? = arguments?.getParcelable("result")
         val url = result!!.sourceUrl
-        Log.v("ppp","SourceUrl:$url")
+
         binding.webView.loadUrl(url)
         binding.webView.webViewClient = object : WebViewClient(){
 

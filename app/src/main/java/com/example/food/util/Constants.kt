@@ -19,6 +19,7 @@ class Constants {
         const val DEFAULT_DIET_TYPE = "gluten free"
         // Database
         const val RECIPES_TABLE_NAME = "recipes_table"
+        const val FAVORITES_TABLE_NAME = "favorites_table"
         const val DATABASE_NAME = "recipes_database"
 
         // DataStore

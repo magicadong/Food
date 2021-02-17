@@ -8,15 +8,9 @@ import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.example.food.data.Repository
-import com.example.food.data.local.RecipesEntity
+import com.example.food.data.local.entity.FavoritesEntity
+import com.example.food.data.local.entity.RecipesEntity
 import com.example.food.data.model.FoodRecipes
-import com.example.food.util.Constants.Companion.API_KEY
-import com.example.food.util.Constants.Companion.QUERY_ADD_RECIPE_INFORMATION
-import com.example.food.util.Constants.Companion.QUERY_API_KEY
-import com.example.food.util.Constants.Companion.QUERY_DIET
-import com.example.food.util.Constants.Companion.QUERY_FILL_INGREDIENTS
-import com.example.food.util.Constants.Companion.QUERY_NUMBER
-import com.example.food.util.Constants.Companion.QUERY_TYPE
 import com.example.food.util.NetworkResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,11 +23,30 @@ class MainViewModel @ViewModelInject constructor(
     /** database */
     // 读取数据库
     var readRecipes:LiveData<List<RecipesEntity>> = repository.localDataSource.readRecipes().asLiveData()
+    var readFavorites:LiveData<List<FavoritesEntity>> = repository.localDataSource.readFavorites().asLiveData()
 
     // 插入数据
     private fun insertRecipes(recipesEntity: RecipesEntity){
         viewModelScope.launch(Dispatchers.IO) {
             repository.localDataSource.insertRecipe(recipesEntity)
+        }
+    }
+
+     fun insertFavorite(favoritesEntity: FavoritesEntity){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.localDataSource.insertFavorite(favoritesEntity)
+        }
+    }
+
+     fun deleteFavorite(favoritesEntity: FavoritesEntity){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.localDataSource.deleteFavorite(favoritesEntity)
+        }
+    }
+
+     fun deleteAllFavorite(){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.localDataSource.deleteAllFavorites()
         }
     }
 
